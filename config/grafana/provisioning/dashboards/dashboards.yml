@@ -1,0 +1,33 @@
+apiVersion: 1
+providers:
+  - name: RabbitMQ
+    orgId: 1
+    folder: RabbitMQ
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /etc/grafana/dashboards/rabbitmq-dashboard.json
+
+    - name: Keycloak
+    orgId: 1
+    folder: Keycloak
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /etc/grafana/dashboards/keycloak-dashboard.json
+
+  - name: MinIO
+    orgId: 1
+    folder: MinIO
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /etc/grafana/dashboards/minio-dashboard.json
+
+  - name: Proxmox
+    orgId: 1
+    folder: Proxmox
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /etc/grafana/dashboards/proxmox-dashboard.json

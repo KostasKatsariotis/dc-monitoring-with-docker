@@ -1,0 +1,50 @@
+[
+  {
+    "id": "proxmox-listener",
+    "type": "amqp in",
+    "z": "main-flow",
+    "name": "Proxmox Backup Listener",
+    "server": "rabbitmq-server",
+    "queue": "proxmox_backup_notifications",
+    "datatype": "json",
+    "x": 200,
+    "y": 200,
+    "wires": [["process-message"]]
+  },
+  {
+    "id": "process-message",
+    "type": "function",
+    "z": "main-flow",
+    "name": "Process Backup Message",
+    "func": "msg.payload = {\n    subject: `Proxmox Backup ${msg.payload.status}`,\n    body: `Backup Status: ${msg.payload.status}\\n\\nVM ID: ${msg.payload.vmid}\\n\\nLog Snippet:\\n${msg.payload.log}`\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 400,
+    "y": 200,
+    "wires": [["email"]]
+  },
+  {
+    "id": "email",
+    "type": "e-mail",
+    "z": "main-flow",
+    "server": "localhost",
+    "port": "25",
+    "secure": false,
+    "name": "postfix",
+    "dname": "Send Backup Notification Email",
+    "x": 600,
+    "y": 200,
+    "wires": []
+  },
+  {
+    "id": "rabbitmq-server",
+    "type": "amqp broker",
+    "z": "",
+    "name": "RabbitMQ",
+    "broker": "rabbitmq",
+    "port": "5672",
+    "vhost": "/",
+    "usetls": false,
+    "verifyservercert": true
+  }
+]
