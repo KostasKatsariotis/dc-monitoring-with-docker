@@ -37,14 +37,11 @@ All required services are pulled directly from Docker Hub.
 
 ## How to Run
 
-### Step 1: Clone or Download the Repository
+### Step 1: Clone the Repository
 ```bash
-mkdir dockerized-monitoring-system
-cd dockerized-monitoring-system
+git clone https://github.com/KostasKatsariotis/dc-monitoring-with-docker.git
+cd dc-monitoring-with-docker
 ```
-
-Copy the provided `docker-compose.yml` and configuration files into the directory.
-
 ---
 
 ### Step 2: Start the Services
