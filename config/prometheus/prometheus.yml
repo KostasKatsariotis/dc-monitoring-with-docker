@@ -14,3 +14,7 @@ scrape_configs:
     metrics_path: '/minio/v2/metrics/cluster'
     static_configs:
       - targets: ['minio:9000']
+
+  - job_name: 'proxmox'
+    static_configs:
+      - targets: ['192.168.10.221:9221']  # Replace <proxmox-host> with the Proxmox host's IP or hostname
