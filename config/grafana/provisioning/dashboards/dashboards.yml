@@ -6,7 +6,7 @@ providers:
     type: file
     updateIntervalSeconds: 10
     options:
-      path: /etc/grafana/dashboards/rabbitmq-dashboard.json
+        path: /etc/grafana/dashboards/rabbitmq-dashboard.json
 
     - name: Keycloak
     orgId: 1
@@ -14,7 +14,7 @@ providers:
     type: file
     updateIntervalSeconds: 10
     options:
-      path: /etc/grafana/dashboards/keycloak-dashboard.json
+        path: /etc/grafana/dashboards/keycloak-dashboard.json
 
   - name: MinIO
     orgId: 1
@@ -22,7 +22,7 @@ providers:
     type: file
     updateIntervalSeconds: 10
     options:
-      path: /etc/grafana/dashboards/minio-dashboard.json
+        path: /etc/grafana/dashboards/minio-dashboard.json
 
   - name: Proxmox
     orgId: 1
@@ -30,4 +30,4 @@ providers:
     type: file
     updateIntervalSeconds: 10
     options:
-      path: /etc/grafana/dashboards/proxmox-dashboard.json
+        path: /etc/grafana/dashboards/proxmox-dashboard.json
