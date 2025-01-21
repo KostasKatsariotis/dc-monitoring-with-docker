@@ -8,7 +8,15 @@ providers:
     options:
         path: /etc/grafana/dashboards/rabbitmq-dashboard.json
 
-    - name: Keycloak
+  - name: Node-RED
+    orgId: 1
+    folder: Node-RED
+    type: file
+    updateIntervalSeconds: 10
+    options:
+        path: /etc/grafana/dashboards/nodered-dashboard.json
+
+  - name: Keycloak
     orgId: 1
     folder: Keycloak
     type: file
