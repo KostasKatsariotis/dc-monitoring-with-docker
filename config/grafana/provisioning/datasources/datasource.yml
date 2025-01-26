@@ -6,33 +6,3 @@ datasources:
     url: http://192.168.20.131:9090
     isDefault: true
     editable: false
-
-  - name: RabbitMQ
-    type: prometheus
-    access: proxy
-    url: http://192.168.20.131:9090
-    editable: false
-
-  - name: Node-RED
-    type: prometheus
-    access: proxy
-    url: http://192.168.20.131:9090
-    editable: false
-
-  - name: Keycloak
-    type: prometheus
-    access: proxy
-    url: http://192.168.20.131:9090
-    editable: false
-
-  - name: MinIO
-    type: prometheus
-    access: proxy
-    url: http://192.168.20.131:9090
-    editable: false
-
-  - name: Proxmox
-    type: prometheus
-    access: proxy
-    url: http://192.168.20.131:9090
-    editable: false
