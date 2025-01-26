@@ -15,7 +15,7 @@ scrape_configs:
     static_configs:
       - targets: ['192.168.20.131:9000']
 
-    - job_name: 'pve'
+  - job_name: 'pve'
     static_configs:
       - targets:
         - 192.168.20.128  # Proxmox VE node.

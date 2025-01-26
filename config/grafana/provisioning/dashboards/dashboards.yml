@@ -1,41 +1,41 @@
 apiVersion: 1
 providers:
-  - name: MyDataCenter
+  - name: RabbitMQ
     orgId: 1
-    folder: Proxmox
-    type: file
-    updateIntervalSeconds: 10
-    options:
-        path: /etc/grafana/dashboards/proxmox-dashboard.json
-
-  - name: MyDataCenter
-    orgId: 2
-    folder: Keycloak
-    type: file
-    updateIntervalSeconds: 10
-    options:
-        path: /etc/grafana/dashboards/keycloak-dashboard.json
-
-  - name: MyDataCenter
-    orgId: 3
-    folder: MinIO
-    type: file
-    updateIntervalSeconds: 10
-    options:
-        path: /etc/grafana/dashboards/minio-dashboard.json
-
-  - name: MyDataCenter
-    orgId: 4
     folder: RabbitMQ
     type: file
     updateIntervalSeconds: 10
     options:
         path: /etc/grafana/dashboards/rabbitmq-dashboard.json
 
-  - name: MyDataCenter
-    orgId: 5
+  - name: Node-RED
+    orgId: 1
     folder: Node-RED
     type: file
     updateIntervalSeconds: 10
     options:
         path: /etc/grafana/dashboards/nodered-dashboard.json
+
+  - name: Keycloak
+    orgId: 1
+    folder: Keycloak
+    type: file
+    updateIntervalSeconds: 10
+    options:
+        path: /etc/grafana/dashboards/keycloak-dashboard.json
+
+  - name: MinIO
+    orgId: 1
+    folder: MinIO
+    type: file
+    updateIntervalSeconds: 10
+    options:
+        path: /etc/grafana/dashboards/minio-dashboard.json
+
+  - name: Proxmox
+    orgId: 1
+    folder: Proxmox
+    type: file
+    updateIntervalSeconds: 10
+    options:
+        path: /etc/grafana/dashboards/proxmox-dashboard.json
