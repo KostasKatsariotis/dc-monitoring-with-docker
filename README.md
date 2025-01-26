@@ -103,7 +103,7 @@ This will start all services, including RabbitMQ, MinIO, Prometheus, Grafana, No
 Ensure Prometheus is scraping metrics.
 
 ### Grafana Dashboards
-Dashboards for MinIO, RabbitMQ, and Proxmox are impported durind docker compose.
+Dashboards for MinIO, RabbitMQ, and Proxmox are impported during setup.
 
 
 ---
