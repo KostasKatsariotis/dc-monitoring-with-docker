@@ -15,6 +15,19 @@ scrape_configs:
     static_configs:
       - targets: ['192.168.20.131:9000']
 
-  - job_name: 'proxmox'
+    - job_name: 'pve'
     static_configs:
-      - targets: ['192.168.20.128:9221']  # Replace <proxmox-host> with the Proxmox host's IP or hostname
+      - targets:
+        - 192.168.20.128  # Proxmox VE node.
+    metrics_path: /pve
+    params:
+      module: [default]
+      cluster: ['1']
+      node: ['1']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.20.128:9221  # PVE exporter.
