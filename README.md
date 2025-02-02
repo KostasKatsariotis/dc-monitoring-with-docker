@@ -32,6 +32,7 @@ Required services are pulled directly from Docker Hub (pve exporter that exposes
 4. **Node-RED**: `nodered/node-red:latest`
 5. **MinIO**: `minio/minio`
 6. **Keycloak**: `quay.io/keycloak/keycloak:latest`
+7. **PostgreSQL**: `postgres:latest`
 
 ---
 
@@ -47,7 +48,7 @@ cd dc-monitoring-with-docker
 
 ### Step 2: Create Directories for Persistent Storage and set ownership and permissions for Grafana
 ```bash
-mkdir -p data/prometheus data/grafana data/rabbitmq data/minio
+mkdir -p data/prometheus data/grafana data/rabbitmq data/minio /data/postgres
 sudo chown -R 472:472 ./data/grafana
 sudo chmod -R 755 ./data/grafana
 ```
@@ -97,14 +98,13 @@ This will start all services, including RabbitMQ, MinIO, Prometheus, Grafana, No
 
 ---
 
-## Monitoring Dashboards
+## Pre-deployed Grafana Dashboards
+- Proxmox
+- minio
+- RabbitMQ
 
 ### Prometheus Targets
 Ensure Prometheus is scraping metrics.
-
-### Grafana Dashboards
-Dashboards for MinIO, RabbitMQ, and Proxmox are impported during setup.
-
 
 ---
 
@@ -120,6 +120,8 @@ Dashboards for MinIO, RabbitMQ, and Proxmox are impported during setup.
 | Keycloak   | `KEYCLOAK_ADMIN_PASS`         |                     |
 | Grafana    | `GRAFANA_USER`                |                     |
 | Grafana    | `GRAFANA_PASS`                |                     |
+| PostgreSQL | `POSTGRES_USER`               |                     |
+| PostgreSQL | `POSTGRES_PASSWORD`           |                     |
 
 ---
 
