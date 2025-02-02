@@ -1,7 +1,7 @@
 [
   {
     "id": "proxmox-listener",
-    "type": "amqp in",
+    "type": "amqp-in",
     "z": "main-flow",
     "name": "Proxmox Backup Listener",
     "server": "rabbitmq-server",
