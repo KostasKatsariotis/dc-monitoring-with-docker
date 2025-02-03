@@ -61,15 +61,38 @@ services:
     networks:
       - monitoring
 
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: keycloak_db
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./config/postgres-init:/docker-entrypoint-initdb.d # Initialization scripts
+    ports:
+      - "5432:5432"
+    networks:
+      - monitoring
+
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
-    ports:
-      - "8080:8080"
+    restart: always
+    command: start-dev
     environment:
       - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASS}
-    command: start-dev
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak_db
+      - KC_DB_USERNAME=${POSTGRES_USER}
+      - KC_DB_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
     networks:
       - monitoring
 
