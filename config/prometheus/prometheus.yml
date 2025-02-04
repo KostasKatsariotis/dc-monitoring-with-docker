@@ -4,21 +4,21 @@ global:
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['192.168.20.131:9090']
+      - targets: ['192.168.20.131:9090']  # Prometheus IP
 
   - job_name: 'rabbitmq'
     static_configs:
-      - targets: ['192.168.20.131:15692']
+      - targets: ['192.168.20.131:15692'] # RabbitMQ IP:Port
 
   - job_name: 'minio'
     metrics_path: '/minio/v2/metrics/cluster'
     static_configs:
-      - targets: ['192.168.20.131:9000']
+      - targets: ['192.168.20.131:9000']  # Minio IP:Port
 
   - job_name: 'pve'
     static_configs:
       - targets:
-        - 192.168.20.128  # Proxmox VE node.
+        - 192.168.20.128  # Proxmox VE node IP
     metrics_path: /pve
     params:
       module: [default]
@@ -30,4 +30,4 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 192.168.20.128:9221  # PVE exporter.
+        replacement: 192.168.20.128:9221  # PVE exporter IP

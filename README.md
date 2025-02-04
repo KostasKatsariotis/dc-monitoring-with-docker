@@ -9,6 +9,7 @@ This project is a complete containerized solution for Proxmox monitoring (single
 - **RabbitMQ**: Message queue for notifications.
 - **Node-RED**: Workflow automation for email notifications.
 - **Keycloak**: Identity and access management.
+- **PostgreSQL**: DB for Keycloak.
 - **MinIO**: S3-compatible storage for Proxmox backups.
 
 ---
@@ -17,7 +18,6 @@ This project is a complete containerized solution for Proxmox monitoring (single
 - Monitor Proxmox and services like RabbitMQ or MinIO with Prometheus and Grafana.
 - Proxmox backups directly stored in MinIO.
 - Automated email notifications for Proxmox backup statuses.
-- Secure communication via TLS (optional).
 
 ---
 
@@ -48,19 +48,25 @@ cd dc-monitoring-with-docker
 
 ### Step 2: Create Directories for Persistent Storage and set ownership and permissions for Grafana
 ```bash
-mkdir -p data/prometheus data/grafana data/rabbitmq data/minio /data/postgres
+mkdir -p data/prometheus data/grafana data/rabbitmq data/minio data/postgres
 sudo chown -R 472:472 ./data/grafana
 sudo chmod -R 755 ./data/grafana
 ```
 
 ---
 
-### Step 3: Start the Services
+### Step 3: Modify files 
+
+Customise files dc-monitoring-with-docker\config\prometheus\prometheus.yml and dc-monitoring-with-docker\config\grafana\provisioning\datasources\datasources.yml with IPs of server running docker and Proxmox host/s, and .env file with default credentials.
+
+---
+
+### Step 4: Start the Services
 ```bash
 docker-compose up -d
 ```
 
-This will start all services, including RabbitMQ, MinIO, Prometheus, Grafana, Node-RED, and Keycloak.
+This will start all services, including RabbitMQ, MinIO, Prometheus, Grafana, Node-RED, PostgreSQL and Keycloak.
 
 ---
 
@@ -70,10 +76,11 @@ This will start all services, including RabbitMQ, MinIO, Prometheus, Grafana, No
 |------------------|----------------------------|----------------------------|
 | **Prometheus**   | [http://docker-server-ip:9090] | N/A                    |
 | **Grafana**      | [http://docker-server-ip:3000] | admin/password123      |
-| **RabbitMQ**     | [http://docker-server-ip:15672] | admin/password123     |
+| **RabbitMQ**     | [http://docker-server-ip:15672]| admin/password123      |
 | **MinIO**        | [http://docker-server-ip:9000] | admin/password123      |
 | **Node-RED**     | [http://docker-server-ip:1880] | N/A                    |
 | **Keycloak**     | [http://docker-server-ip:8080] | admin/password123      |
+| **PostgreSQL**   | [http://docker-server-ip:5432] | admin/password123      |
 
 ---
 
@@ -81,20 +88,18 @@ This will start all services, including RabbitMQ, MinIO, Prometheus, Grafana, No
 
 ### 1. Configure Proxmox with MinIO
 1. Go to minio and create the bucket for Proxmox and a user to access it.
-2. Go to Proxmox, install s3fs and add the the minio bucket: **Datacenter > Storage > Add > Directory**
-3. Configure the storage as follows:
-   - **ID**: `minio-backups`
-   - **Endpoint**: `http://minio:9000`
-   - **Access Key**: `bucket user`
-   - **Secret Key**: `password`
-   - **Bucket Name**: `proxmox-backups`.
-4. Enter the RabbitMQ container and run the script:
+2. Go to Proxmox, install s3fs and create a mount point (mkdir -p /mnt/minio-s3-backups) and a file  (nano /etc/passwd-s3fs) to store the access and the secret key. Modify fstab and add a line to connect to minio bucket at startup (s3fs BUCKET_NAME /mnt/minio -o passwd_file=/root/.passwd-s3fs -o allow_other -o url=http://MINIO_SERVER:9000 -o use_path_request_style -o curldbg)
+3. On Proxmox UI go to **Datacenter > Storage > Add > Directory** and configure the storage as follows:
+   - **ID**: `minio-s3-backups`
+   - **Directory**: `/mnt/minio-s3-backups`
+   - **Content**: `VZDump backup file`
+4. Go to **Datacenter > Backup > Add** and configure the backup job:
+5. Enter the RabbitMQ container and run the script:
    docker exec -it rabbitmq bash
    /docker-entrypoint-initdb.d/rabbitmq-setup.sh
 
 ### 2. Set Up Notifications
-- The Proxmox hook script is configured to send RabbitMQ messages for backup events. Node-RED processes these messages and:
-  - Sends email notifications via SMTP.
+- The Proxmox hook script is configured to send RabbitMQ messages for backup events. Node-RED processes these messages and sends email notifications via SMTP.
 
 ---
 
