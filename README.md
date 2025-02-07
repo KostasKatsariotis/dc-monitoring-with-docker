@@ -117,12 +117,13 @@ This section describes how to set up Proxmox to send backup notifications via Ra
 7. Install `s3fs` (`apt install -y s3fs`) 
 8. Create the folder where you want to mount the s3 bucket: `mkdir /mnt/minio-backups`
 9. Enable user_allow_other option by removing the trailing # in the Fuse config file: `nano /etc/fuse.conf`
-10. Put an entry into fstab to mount the folder at startup: s3fs BUCKET_NAME /mnt/minio -o passwd_file=/root/.passwd-s3fs -o allow_other -o url=http://MINIO_SERVER:9000 -o use_path_request_style -o curldbg).
-11. On Proxmox UI go to **Datacenter > Storage > Add > Directory** and configure the storage as follows:
-   - **ID**: `minio-s3-backups`
-   - **Directory**: `/mnt/minio-s3-backups`
+10. Mount the bucket: s3fs BUCKET_NAME /mnt/minio -o passwd_file=/root/.passwd-s3fs -o allow_other -o url=http://MINIO_SERVER:9000 -o use_path_request_style -o curldbg
+11. Put an entry into fstab to mount the folder at startup: `s3fs#proxmox-backups /mnt/minio-s3-backups fuse _netdev,passwd_file=/etc/passwd-s3fs,allow_other,url=http://192.168.20.131:9000,use_path_request_style,nonempty 0 0`
+12. On Proxmox UI go to **Datacenter > Storage > Add > Directory** and configure the storage as follows:
+   - **ID**: `minio-backups`
+   - **Directory**: `/mnt/minio-backups`
    - **Content**: `VZDump backup file`
-12. Go to **Datacenter > Backup > Add** and configure the backup job:
+13. Go to **Datacenter > Backup > Add** and configure the backup job:
 
 ### **Backup Hook Script to Send Messages to RabbitMQ**
 1. Create a Proxmox backup hook script at `/var/lib/pve-manager/hooks/backup-rabbitmq.sh`:
